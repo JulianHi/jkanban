@@ -19,7 +19,8 @@ var dragula = require("dragula");
       "drag",
       "dragend",
       "drop",
-      "order"
+      "order",
+	  "class"
     ];
     this.element = "";
     this.container = "";
@@ -167,13 +168,24 @@ var dragula = require("dragula");
       }
     };
 
+
     this.addElement = function(boardID, element) {
       var board = self.element.querySelector(
         '[data-id="' + boardID + '"] .kanban-drag'
       );
       var nodeItem = document.createElement("div");
       nodeItem.classList.add("kanban-item");
-      console.log(element);
+	  
+      if (element.class !== "" && element.class !== undefined)
+        var allClasses = element.class.split(",");
+      else allClasses = [];
+	        
+      allClasses.map(function(value) {
+        nodeItem.classList.add(value);
+      });
+	  
+	  
+      //console.log(element);
       if (typeof element.id !== "undefined" && element.id !== "") {
         nodeItem.setAttribute("data-eid", element.id);
       }
@@ -198,6 +210,41 @@ var dragula = require("dragula");
       board.appendChild(formItem);
       return self;
     };
+	
+	
+	this.resizeBoards = function(){
+		
+        if (self.options.responsiveOnResize) {
+			
+			var els = self.element.getElementsByClassName("kanban-board");
+			//console.log(els);
+			
+			console.log("gutter:" + self.options.gutter);
+			console.log("widthBoard:" + self.options.widthBoard);
+			console.log("windowWidth:" + window.innerWidth);
+			newBoardWidth=Math.trunc(((window.innerWidth-20-(els.length*2*parseInt(self.options.gutter)))/els.length));
+			console.log("new Width:"+ newBoardWidth);
+			
+			if(newBoardWidth > parseInt(self.options.widthBoard)){
+	  		  [].forEach.call(els, function (el) {
+	  			  el.style.width = newBoardWidth + "px";
+	  		  });	
+			  
+			  self.container.style.width = 	Math.round((newBoardWidth+2*parseInt(self.options.gutter))*els.length)+"px";	
+			  console.log("board width: "+(newBoardWidth+2*parseInt(self.options.gutter))*els.length);
+			}else{
+				
+  	  		  [].forEach.call(els, function (el) {
+  	  			  el.style.width = parseInt(self.options.widthBoard) + "px";
+  	  		  });	
+			  
+				self.container.style.width = 	Math.round((parseInt(self.options.widthBoard)+2*parseInt(self.options.gutter))*els.length)+"px";	
+			}
+       		  
+
+		  
+        }
+	}
 
     this.addBoards = function(boards, isInit) {
       if (self.options.responsivePercentage) {
