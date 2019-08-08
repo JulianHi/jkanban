@@ -183,8 +183,7 @@ var dragula = require("dragula");
       allClasses.map(function(value) {
         nodeItem.classList.add(value);
       });
-	  
-	  
+	  	  
       //console.log(element);
       if (typeof element.id !== "undefined" && element.id !== "") {
         nodeItem.setAttribute("data-eid", element.id);
@@ -232,7 +231,7 @@ var dragula = require("dragula");
 			  
 			  self.container.style.width = 	Math.round((newBoardWidth+2*parseInt(self.options.gutter))*els.length)+"px";	
 			  console.log("board width: "+(newBoardWidth+2*parseInt(self.options.gutter))*els.length);
-			}else{
+			}elsec
 				
   	  		  [].forEach.call(els, function (el) {
   	  			  el.style.width = parseInt(self.options.widthBoard) + "px";
